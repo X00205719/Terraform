@@ -26,7 +26,7 @@ jobs:
         with:
           iac_type: 'terraform'
           iac_version: 'v14'
-          policy_type: 'azur'
+          policy_type: 'azure'
           only_warn: true
           sarif_upload: true
 
