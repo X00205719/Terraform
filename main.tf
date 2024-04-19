@@ -17,11 +17,11 @@ resource "azurerm_resource_group" "kubernetes" {
   location = "West Europe"
 }
 
-# resource "azurerm_management_lock" "kubernetes_lock" {
-#   name       = "kubernetes-lock"
-#   scope      = azurerm_resource_group.kubernetes.id
-#   lock_level = "CanNotDelete"
-# }
+resource "azurerm_management_lock" "kubernetes_lock" {
+  name       = "kubernetes-lock"
+  scope      = azurerm_resource_group.kubernetes.id
+  lock_level = "CanNotDelete"
+}
 
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "my-aks-cluster"
@@ -51,4 +51,10 @@ resource "azurerm_container_registry" "container_registry" {
   location                 = azurerm_resource_group.kubernetes.location
   sku                      = "Basic"
   admin_enabled            = true // Change this according to your needs
+}
+
+resource "azurerm_management_lock" "container_registry_lock" {
+  name       = "container-registry-lock"
+  scope      = azurerm_container_registry.container_registry.id
+  lock_level = "CanNotDelete"
 }
