@@ -40,7 +40,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   service_mesh_profile {
-    mode = "Istio"
+    mode                             = "Istio"
+    external_ingress_gateway_enabled = true
   }
 }
 
