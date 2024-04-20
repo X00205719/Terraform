@@ -17,11 +17,11 @@ resource "azurerm_resource_group" "kubernetes" {
   location = "West Europe"
 }
 
-resource "azurerm_management_lock" "kubernetes_lock" {
-  name       = "kubernetes-lock"
-  scope      = azurerm_resource_group.kubernetes.id
-  lock_level = "CanNotDelete"
-}
+# resource "azurerm_management_lock" "kubernetes_lock" {
+#   name       = "kubernetes-lock"
+#   scope      = azurerm_resource_group.kubernetes.id
+#   lock_level = "CanNotDelete"
+# }
 
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "my-aks-cluster"
