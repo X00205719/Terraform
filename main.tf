@@ -22,6 +22,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = azurerm_resource_group.kubernetes.location
   resource_group_name = azurerm_resource_group.kubernetes.name
   dns_prefix          = "myakscluster"
+  sku_tier            = "Standard"
 
   default_node_pool {
     name       = "default"
@@ -55,7 +56,7 @@ resource "azurerm_management_lock" "container_registry_lock" {
 
 
 resource "azurerm_storage_account" "backup_storage_account" {
-  name                     = "backupstorageacct"
+  name                     = "backupstorageacct-los"
   resource_group_name      = azurerm_resource_group.kubernetes.name
   location                 = azurerm_resource_group.kubernetes.location
   account_tier             = "Standard"
