@@ -17,12 +17,6 @@ resource "azurerm_resource_group" "kubernetes" {
   location = "West Europe"
 }
 
-# resource "azurerm_management_lock" "kubernetes_lock" {
-#   name       = "kubernetes-lock"
-#   scope      = azurerm_resource_group.kubernetes.id
-#   lock_level = "CanNotDelete"
-# }
-
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "my-aks-cluster"
   location            = azurerm_resource_group.kubernetes.location
@@ -50,11 +44,30 @@ resource "azurerm_container_registry" "container_registry" {
   resource_group_name      = azurerm_resource_group.kubernetes.name
   location                 = azurerm_resource_group.kubernetes.location
   sku                      = "Basic"
-  admin_enabled            = true // Change this according to your needs
+  admin_enabled            = true
 }
 
 resource "azurerm_management_lock" "container_registry_lock" {
   name       = "container-registry-lock"
   scope      = azurerm_container_registry.container_registry.id
   lock_level = "CanNotDelete"
+}
+
+
+resource "azurerm_storage_account" "backup_storage_account" {
+  name                     = "backupstorageacct"
+  resource_group_name      = azurerm_resource_group.kubernetes.name
+  location                 = azurerm_resource_group.kubernetes.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  tags = {
+    environment = "backup"
+  }
+}
+
+resource "azurerm_storage_container" "backup_container" {
+  name                  = "backupdata"
+  storage_account_name = azurerm_storage_account.backup_storage_account.name
+  container_access_type = "private"
 }
