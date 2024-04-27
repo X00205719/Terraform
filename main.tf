@@ -56,7 +56,7 @@ resource "azurerm_management_lock" "container_registry_lock" {
 
 
 resource "azurerm_storage_account" "backup_storage_account" {
-  name                     = "backupstorageacct-los"
+  name                     = "backupstorageacctk8slos"
   resource_group_name      = azurerm_resource_group.kubernetes.name
   location                 = azurerm_resource_group.kubernetes.location
   account_tier             = "Standard"
